@@ -1,0 +1,11 @@
+Lichtsensor	KEYWORD1
+Farbsensor	KEYWORD1
+
+getWert	KEYWORD2
+helligkeit_low	KEYWORD2
+helligkeit_high	KEYWORD2
+setLED	KEYWORD2
+
+init_sensorleiste	KEYWORD2
+farbsensoren_auslesen	KEYWORD2
+lichtsensoren_auslesen	KEYWORD2
