@@ -1,3 +1,5 @@
 # Sensorleiste
 
-Arduino Code zum auslesen der Farbsensoren einer Sensorleiste. Die Daten können per I2C-Bus ausgelesen werden.
+Arduino Library zum auslesen der Analogen RGB Farbsensoren einer Sensorleiste. 
+
+**Analoger RGB Farbsensor:** https://github.com/carlobrok/Farbsensor
