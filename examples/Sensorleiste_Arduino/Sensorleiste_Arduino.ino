@@ -1,5 +1,5 @@
 #include <Wire.h>
-#include "Farbsensor.h"
+#include "Sensor.h"
 
 /*
   Beispiel für eine Sensorleiste mit 4 Farbsensoren. Die ausgelesenen Daten werden per I2C-Bus gesendet.
@@ -34,7 +34,7 @@ void setup()
   sensorleiste[3] = Farbsensor(A3, 11, 12, 13);
 
 #ifdef DEBUG                       // Die Serielle Schnittstelle wird nur initialisiert, wenn DEBUG definiert ist
-  Serial.begin(9600);                       // Serieller Monitor an, um am Computer die Werte zu sehen.
+  Serial.begin(115200);                       // Serieller Monitor an, um am Computer die Werte zu sehen.
 #endif
 }
 

@@ -1,9 +1,29 @@
 #include "Arduino.h"
-#include "Farbsensor.h"
+#include "Sensor.h"
 
-Farbsensor::Farbsensor() {}
+Lichtsensor::Lichtsensor() {
+  _pin_sen = -1;
+}
 
-Farbsensor::Farbsensor(int pin_sen, int pin_R, int pin_G, int pin_B) {
+Lichtsensor::Lichtsensor(int pin_sen) {
+  _pin_sen = pin_sen;
+}
+
+int Lichtsensor::getWert() {
+  return analogRead(_pin_sen);
+}
+
+
+
+
+
+Farbsensor::Farbsensor() {
+  _pin_R = -1;
+  _pin_G = -1;
+  _pin_B = -1;
+}
+
+Farbsensor::Farbsensor(int pin_sen, int pin_R, int pin_G, int pin_B) : Lichtsensor(pin_sen) {
   _pin_sen = pin_sen;
   _pin_R = pin_R;
   _pin_G = pin_G;
@@ -15,10 +35,6 @@ Farbsensor::Farbsensor(int pin_sen, int pin_R, int pin_G, int pin_B) {
   pinMode(_pin_B, OUTPUT);
 
   setFarbe(WEISS);
-}
-
-int Farbsensor::getWert() {
-  return analogRead(_pin_sen);
 }
 
 void Farbsensor::getWerte(int & helligkeit, int & prozent_rot, int & prozent_gruen, int & prozent_blau) {

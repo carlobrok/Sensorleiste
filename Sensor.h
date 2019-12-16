@@ -1,27 +1,38 @@
-#ifndef Farbsensor_h
-#define Farbsensor_h
+#ifndef Sensor_h
+#define Sensor_h
 
 #include "Arduino.h"
 
 #define ZEIT 10
 
-#define WEISS 0
-#define ROT 1
-#define GRUEN 2
-#define BLAU 3
+#define AUS 0
+#define WEISS 1
+#define ROT 2
+#define GRUEN 3
+#define BLAU 4
 
+class Lichtsensor {
+public:
+  Lichtsensor();
+  Lichtsensor(int pin_sen);
 
-class Farbsensor {
+  int getWert();
+
+  int _pin_sen;
+
+private:
+
+};
+
+class Farbsensor : public Lichtsensor {
 public:
   Farbsensor();
   Farbsensor(int pin_sen, int pin_R, int pin_G, int pin_B);
 
-  int getWert();
   void getWerte(int & helligkeit, int & prozent_rot, int & prozent_gruen, int & prozent_blau);
   void setFarbe(int farbe);
 
 private:
-  int _pin_sen;
   int _pin_R, _pin_G, _pin_B;
   int _wert_R, _wert_G, _wert_B;
 };
