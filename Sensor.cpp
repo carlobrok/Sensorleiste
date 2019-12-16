@@ -3,6 +3,7 @@
 
 Lichtsensor::Lichtsensor() {
   _pin_sen = -1;
+  helligkeit = 0;
 }
 
 Lichtsensor::Lichtsensor(int pin_sen) {
@@ -13,8 +14,28 @@ int Lichtsensor::getWert() {
   return analogRead(_pin_sen);
 }
 
+void Lichtsensor::update() {
+  helligkeit = getWert();
+}
 
 
+/*  Der Helligkeitswert hat eine Auflösung von 10bit (Wert von 0-1023)
+    Der I2C-Bus kann aber nur jeweils 1 byte (= 8 bit) senden.
+
+    Also müssen die 10 bit in 8 bit und 2 bit aufgeteil werden und getrennt gesendet werden.
+    Ansonsten hätte man statt einem Wert von 0-1023 nur einen Wert von 0-255.
+
+    Deshalb werden die sogenannten high und low bytes separat gesendet.
+*/
+
+// helligkeit_low berechnet das Low-Byte
+byte Lichtsensor::helligkeit_low() {
+  return (helligkeit & 0xff );
+}
+// helligkeit_high berechnet das High-Byte
+byte Lichtsensor::helligkeit_high() {
+  return ((helligkeit >> 8) & 0xff );
+}
 
 
 Farbsensor::Farbsensor() {
@@ -34,33 +55,32 @@ Farbsensor::Farbsensor(int pin_sen, int pin_R, int pin_G, int pin_B) : Lichtsens
   pinMode(_pin_G, OUTPUT);
   pinMode(_pin_B, OUTPUT);
 
-  setFarbe(WEISS);
+  setLED(WEISS);
 }
 
-void Farbsensor::getWerte(int & helligkeit, int & prozent_rot, int & prozent_gruen, int & prozent_blau) {
-  setFarbe(ROT);
+void Farbsensor::update() {
+  setLED(ROT);
   delay(ZEIT);
-  _wert_R = 1023 - getWert();
+  int _wert_R = 1023 - getWert();
 
-  setFarbe(GRUEN);
+  setLED(GRUEN);
   delay(ZEIT);
-  _wert_G = 1023 - getWert();
+  int _wert_G = 1023 - getWert();
 
-  setFarbe(BLAU);
+  setLED(BLAU);
   delay(ZEIT);
-  _wert_B = 1023 - getWert();
+  int _wert_B = 1023 - getWert();
 
-  setFarbe(WEISS);
+  setLED(WEISS);
   delay(ZEIT);
   helligkeit = 1023 - getWert();
 
-  prozent_rot  = _wert_R * 100L / ( _wert_R + _wert_G + _wert_B);
-  prozent_gruen = _wert_G * 100L / ( _wert_R + _wert_G + _wert_B);
-  prozent_blau = _wert_B * 100L / ( _wert_R + _wert_G + _wert_B);
-
+  rot_prozent = (byte) _wert_R * 100L / ( _wert_R + _wert_G + _wert_B);
+  blau_prozent = (byte) _wert_G * 100L / ( _wert_R + _wert_G + _wert_B);
+  gruen_prozent = (byte) _wert_B * 100L / ( _wert_R + _wert_G + _wert_B);
 }
 
-void Farbsensor::setFarbe(int farbe) {
+void Farbsensor::setLED(int farbe) {
   switch (farbe) {
     case WEISS:
       digitalWrite(_pin_R, HIGH);

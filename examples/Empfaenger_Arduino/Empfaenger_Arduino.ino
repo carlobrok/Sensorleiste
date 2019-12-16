@@ -6,13 +6,13 @@ Farbsensor sensoren[4];
 void setup()
 {
   Wire.begin();        // join i2c bus (address optional for master)
-  init_sensorleiste(4, 0x08);
+  init_sensorleiste(0x08);
   Serial.begin(115200);     // Der serielle Monitor wird aktiviert.
 }
 
 void loop()
 {
-  sensoren_auslesen(sensoren);
+  farbsensoren_auslesen(sensoren);
 
   for(int i = 0; i < 4; i++) {
     Serial.print("Sensor ");
