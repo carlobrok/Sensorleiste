@@ -19,9 +19,6 @@ public:
   int getWert();
 
   int _pin_sen;
-
-private:
-
 };
 
 class Farbsensor : public Lichtsensor {
